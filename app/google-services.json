@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "608841918108",
+    "firebase_url": "https://sneakerdroid-c22d6.firebaseio.com",
+    "project_id": "sneakerdroid-c22d6",
+    "storage_bucket": "sneakerdroid-c22d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:608841918108:android:ea95d27fc2380745",
+        "android_client_info": {
+          "package_name": "com.maku.sneakerdroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "608841918108-s0a5n3tu1kthjj3i17llapfbd2cgnoag.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maku.sneakerdroid",
+            "certificate_hash": "697abd721b4f7c7a1e2411d8116700b15dd9fbd3"
+          }
+        },
+        {
+          "client_id": "608841918108-g9r9leeui5b4dnlsov8eica9rj4q9e6a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4n8gSHiCaK-KNeMmp7UWCAr52jBS-XlA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "608841918108-g9r9leeui5b4dnlsov8eica9rj4q9e6a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
