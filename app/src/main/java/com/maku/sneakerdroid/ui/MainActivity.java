@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button mButtonRegister;
 
+    private LinearLayout mLinearLayout;
+    private LinearLayout mLinearLayout1;
+
     //    vars
     ArrayList<DeviceDetails> mDeviceDetails = new ArrayList<>();
     String deviceModel = android.os.Build.MODEL;
@@ -104,12 +108,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mButtonRegister = findViewById(R.id.register);
 
+        mLinearLayout = findViewById(R.id.detailsGroup);
+        mLinearLayout1 = findViewById(R.id.sensitiveData);
+
         mButtonRegister.setOnClickListener(this);
+
+        // this method is used to hide the views
+        hideViews();
 
         setDeviceDetails();
 
     }
 
+    private void hideViews() {
+        Log.d(TAG, "hideViews: that the user doesnt have to see");
+        mLinearLayout1.setVisibility(View.GONE);
+        mLinearLayout.setVisibility(View.GONE);
+    }
 
 
     private void setDeviceDetails() {
@@ -226,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             paramObject.put("fcm_key", fcmKey);
             paramObject.put("device_details", device_details);
 
+//            parse the jso object
             JsonParser jsonParser = new JsonParser();
             gson = (JsonObject) jsonParser.parse(paramObject.toString());
 
