@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">SneakerDroid</string>
+    <string name="firstname">firstname :</string>
+    <string name="lastname">lastname :</string>
+    <string name="phone_number">phone number :</string>
+    <string name="app_version">app version :</string>
+    <string name="fdevice_model">fdevice model :</string>
+    <string name="fdevice_type">fdevice_type</string>
+    <string name="manufacturer">manufacturer</string>
+    <string name="mobile_no">Mobile No.</string>
+    <string name="share">share</string>
+    <string name="register">register</string>
 </resources>
