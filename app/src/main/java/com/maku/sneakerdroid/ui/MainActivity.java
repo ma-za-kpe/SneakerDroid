@@ -196,11 +196,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.d(TAG, "registerProcess: field items " + firstname +" "+ lastname +" "+ phone +" "+ projectCode +" "+ appVersion +" "+ fcmKey +" "+ deviceDetailss);
 
-        // setting custom timeouts
+        // setting custom timeouts (time outs should be small, so as to enhance user experience)
         OkHttpClient.Builder client = new OkHttpClient.Builder();
-        client.connectTimeout(15, TimeUnit.SECONDS);
-        client.readTimeout(15, TimeUnit.SECONDS);
-        client.writeTimeout(15, TimeUnit.SECONDS);
+        client.connectTimeout(150, TimeUnit.SECONDS);
+        client.readTimeout(150, TimeUnit.SECONDS);
+        client.writeTimeout(150, TimeUnit.SECONDS);
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -253,6 +253,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Log.d(TAG, "onResponse: " + response.body().getAccessToken());
                     View parentLayout = findViewById(android.R.id.content);
                     Snackbar.make(parentLayout, "SUCCESS !", Snackbar.LENGTH_LONG).show();
+
+                    //   Move to the next acitvity
+                    Intent intent = new Intent(MainActivity.this, AppsActivity.class);
+                    startActivity(intent);
                 }
 
                 @Override
