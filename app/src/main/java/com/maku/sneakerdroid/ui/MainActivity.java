@@ -1,13 +1,17 @@
 package com.maku.sneakerdroid.ui;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "MainActivity";
 
     //    widgets
+    private ProgressBar mProgressBar;
+
     private EditText editTextfirstname;
     private EditText editTextlastname;
     private EditText editTextphone;
@@ -72,6 +78,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     String selected_country_code;
     String fullNumber;
+
+    Context mContext;
 
 //    userreg fields
     String firstname;
@@ -111,6 +119,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mLinearLayout = findViewById(R.id.detailsGroup);
         mLinearLayout1 = findViewById(R.id.sensitiveData);
 
+        mProgressBar = (ProgressBar)findViewById(R.id.progressBar1);
+
+        Thread.currentThread().setName("Main Thread");
+        Log.v(TAG, "onCreate() has run");
+        Thread genThread = new Thread(new RegisterRunnable());
+        genThread.start();
+
         mButtonRegister.setOnClickListener(this);
 
         // this method is used to hide the views
@@ -120,13 +135,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+//    hide the view a user is not meant to see
     private void hideViews() {
         Log.d(TAG, "hideViews: that the user doesnt have to see");
         mLinearLayout1.setVisibility(View.GONE);
         mLinearLayout.setVisibility(View.GONE);
     }
 
-
+//set device details to the model class
     private void setDeviceDetails() {
        mDeviceDetailss.setDeviceModel(deviceModel);
        mDeviceDetailss.setDeviceType(deviceType);
@@ -152,43 +168,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         Log.d(TAG, "onClick: ");
 
-        if (v.getId() == R.id.register) {
-
-            phone = editTextphone.getText().toString();
-            Log.d(TAG, "onClick: phone " + phone);
-
-            //   get the correct phone number format (international format)
-            selected_country_code = ccp.getSelectedCountryCodeWithPlus();
-
-            //  form fields
-            
-             firstname = editTextfirstname.getText().toString();
-             Log.d(TAG, "onClick: firstname " + firstname);
-             lastname = editTextlastname.getText().toString();
-            Log.d(TAG, "onClick: lastname " + lastname);
-            fullNumber = selected_country_code + phone;
-            Log.d(TAG, "Test user mobile " + fullNumber);
-             projectCode = editTextprojectcode.getText().toString();
-            Log.d(TAG, "onClick: projectCode " + projectCode);
-             appVersion = Integer.parseInt(editTextappversion.getText().toString());
-            Log.d(TAG, "onClick: appVersion " + appVersion);
-             fcmKey = editTextfcmkey.getText().toString();
-            // and device details that are initialised above
-            Log.d(TAG, "onClick: device details " + mDeviceDetailss);
-
-            Log.d(TAG, "onClick: field items " + firstname +" "+ lastname +" "+ fullNumber +" "+ projectCode +" "+ appVersion +" "+ fcmKey +" "+ mDeviceDetailss);
-
-
-            if(!firstname.isEmpty() && !lastname.isEmpty() && !fullNumber.isEmpty()) {
-
-                registerProcess(firstname, lastname, fullNumber, projectCode, appVersion, fcmKey, mDeviceDetailss);
-
-            } else {
-
-                Snackbar.make(v.getRootView(), "Fields are empty !", Snackbar.LENGTH_LONG).show();
-            }
-
-        }
 
     }
 
@@ -273,6 +252,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
 
+    }
+
+    private class RegisterRunnable implements Runnable, View.OnClickListener {
+        private static final String TAG = "RegisterRunnable";
+        @Override
+        public void run() {
+            Log.d(TAG, "run: ");
+            mButtonRegister.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Log.d(TAG, "onClick: ");
+
+
+            if (v.getId() == R.id.register) {
+
+                phone = editTextphone.getText().toString();
+                Log.d(TAG, "onClick: phone " + phone);
+
+                //   get the correct phone number format (international format)
+                selected_country_code = ccp.getSelectedCountryCodeWithPlus();
+
+                //  form fields
+
+                firstname = editTextfirstname.getText().toString();
+                Log.d(TAG, "onClick: firstname " + firstname);
+                lastname = editTextlastname.getText().toString();
+                Log.d(TAG, "onClick: lastname " + lastname);
+                fullNumber = selected_country_code + phone;
+                Log.d(TAG, "Test user mobile " + fullNumber);
+                projectCode = editTextprojectcode.getText().toString();
+                Log.d(TAG, "onClick: projectCode " + projectCode);
+                appVersion = Integer.parseInt(editTextappversion.getText().toString());
+                Log.d(TAG, "onClick: appVersion " + appVersion);
+                fcmKey = editTextfcmkey.getText().toString();
+                // and device details that are initialised above
+                Log.d(TAG, "onClick: device details " + mDeviceDetailss);
+
+                Log.d(TAG, "onClick: field items " + firstname +" "+ lastname +" "+ fullNumber +" "+ projectCode +" "+ appVersion +" "+ fcmKey +" "+ mDeviceDetailss);
+
+
+                if(!firstname.isEmpty() && !lastname.isEmpty() && !fullNumber.isEmpty()) {
+
+                    registerProcess(firstname, lastname, fullNumber, projectCode, appVersion, fcmKey, mDeviceDetailss);
+
+                } else {
+
+                    Snackbar.make(v.getRootView(), "Fields are empty !", Snackbar.LENGTH_LONG).show();
+                }
+
+            }
+        }
     }
 }
 
