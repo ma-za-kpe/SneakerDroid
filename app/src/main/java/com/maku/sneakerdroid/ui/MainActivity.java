@@ -3,9 +3,11 @@ package com.maku.sneakerdroid.ui;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -91,6 +93,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //    create new instance of the DeviceDetails model class
     DeviceDetails mDeviceDetailss = new DeviceDetails();
+
+//    share preferences
+private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +126,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mLinearLayout1 = findViewById(R.id.sensitiveData);
 
         mProgressBar = (ProgressBar)findViewById(R.id.progressBar1);
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEditor = mSharedPreferences.edit();
+
 
         Thread.currentThread().setName("Main Thread");
         Log.v(TAG, "onCreate() has run");
@@ -229,10 +239,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    Log.d(TAG, "onResponse: " + response.body().getAccessToken());
+                    Log.d(TAG, "onResponse: " + response.body().getParticipantDetails().getId());
                     View parentLayout = findViewById(android.R.id.content);
-                    Snackbar.make(parentLayout, "SUCCESS !", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(parentLayout, "SUCCESS ! token is " + response.body().getAccessToken() , Snackbar.LENGTH_LONG).show();
 
+                    addToSharedPreferences(response.body().getParticipantDetails().getId());
+                    
                     //   Move to the next acitvity
                     Intent intent = new Intent(MainActivity.this, AppsActivity.class);
                     startActivity(intent);
@@ -252,6 +264,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
 
+    }
+
+    private void addToSharedPreferences(int id) {
+        String id1 = String.valueOf(Integer.parseInt(String.valueOf(id)));
+        mEditor.putString(Contants.PREFERENCES_USER_ID, id1).apply();
     }
 
     private class RegisterRunnable implements Runnable, View.OnClickListener {

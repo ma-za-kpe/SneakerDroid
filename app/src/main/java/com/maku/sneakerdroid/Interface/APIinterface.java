@@ -1,6 +1,7 @@
 package com.maku.sneakerdroid.Interface;
 
 import com.google.gson.JsonObject;
+import com.maku.sneakerdroid.pojos.DataUploadResponse;
 import com.maku.sneakerdroid.pojos.ResponseBody;
 import com.maku.sneakerdroid.pojos.UserReg;
 
@@ -16,18 +17,10 @@ public interface APIinterface {
 
     @Headers( "Content-Type: application/json" )
     @POST("/api/v1/mobile/participants/")
-    Call<UserReg> registerUser(@Body JsonObject userReg);
-
-    @Headers( "Content-Type: application/json" )
-    @POST("/api/v1/mobile/participants/")
     Call<ResponseBody> reg(@Body JsonObject jsonObject);
 
     @Headers( "Content-Type: application/json" )
-    @POST("/api/v1/mobile/participants/")
-    ResponseBody postJson(@Body UserReg body);
-
-    @Headers( "Content-Type: application/json" )
-    @POST("/api/v1/mobile/participants/")
-    void regUser(@Body JSONObject bean, Callback<JSONObject> callback);
+    @POST("/api/v1/mobile/probes-data/create-bulk")
+    Call<DataUploadResponse> upload(@Body JsonObject jsonObject1);
 
 }

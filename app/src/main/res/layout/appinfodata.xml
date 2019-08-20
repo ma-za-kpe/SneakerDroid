@@ -38,7 +38,8 @@
                 android:layout_height="match_parent" />
 
             <TextView
-                android:id="@+id/unInstalled"
+                android:background="@drawable/ic_upload"
+                android:id="@+id/upload"
                 android:layout_width="50dp"
                 android:layout_height="match_parent" />
             <TextView
